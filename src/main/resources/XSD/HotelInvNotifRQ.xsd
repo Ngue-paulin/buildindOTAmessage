@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:include schemaLocation="OTA_v2ent.xsd"/>
+    <xsd:include schemaLocation="DateTimeSpan.xsd"/>
+    <xsd:include schemaLocation="HotelReference.xsd"/>
+    <xsd:include schemaLocation="DOWPattern.xsd"/>
+    <xsd:include schemaLocation="Profile.xsd"/>
+    <xsd:include schemaLocation="SellableProducts.xsd"/>
+    <xsd:element name="OTA_HotelInvNotifRQ">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">The HotelInvNotifRQ is the message that sends the notification of a new inventory item, such as a room type or service type created for the hotel that did not previously exist.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="HotelReference"/>
+                <xsd:element ref="SellableProducts"/>
+            </xsd:sequence>
+            <xsd:attributeGroup ref="OTA_PayloadStdAttributes">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">This element defines standard attributes that appear on the root element for all OTA payloads.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attributeGroup>
+            <xsd:attribute name="InvNotifType" use="required">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">An enumerated type that indicates whether this is a new inventory item or an update of an existing inventory item.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Values: New, Delta modification, Full overlay modification.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="New"/>
+                        <xsd:enumeration value="Delta"/>
+                        <xsd:enumeration value="Overlay"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:attribute name="InvStatusType" use="required">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">An enumerated type that indicates the status of the inventory item, ie: whether this notification is an initial announcement of a new inventory item, an update of an active (bookable) inventory item, or a notification of an inventory item that is no longer in effect.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Values: Initial, Active, Deactivated.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="Initial"/>
+                        <xsd:enumeration value="Active"/>
+                        <xsd:enumeration value="Deactivated"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:attribute name="InvCodeType" use="required">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">An enumerated type that indicates whether this is an inventory item or an inventory grouping. </xsd:documentation>
+                    <xsd:documentation xml:lang="en">Values: Does Not Apply, Inv Code, Inv Grouping Code.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="DoesNotApply"/>
+                        <xsd:enumeration value="InvCode"/>
+                        <xsd:enumeration value="InvGroupingCode"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:attribute name="InvCode" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Identification of the inventory. Whether to use the sending/querying or the receiving/responding system's identification depends on which system is doing the translating.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="InvGroupingCode" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The identification of the inventory grouping.  Whether to use the sending/querying or the receiving/responding system's identification depends on which system is doing the translating.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="InvName" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The overall descriptive name of the inventoriable item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="BeddingCode" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The identification of the type of bed(s) provided in the room inventory item, e.g.: single, double queens, king, etc.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="IsRoom" type="xsd:boolean" use="required">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Indicates if the inventoriable product is a room or other services. </xsd:documentation>
+                    <xsd:documentation xml:lang="en">Values: (false) Non-room product,  (true) Room inventory.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <!--
+            <attribute name="Smoking" type="xsd:boolean" use="optional">
+                <annotation>
+                    <documentation xml:lang="en">Indicates if the room inventory product is a smoking or non-smoking room type. </documentation>
+                    <documentation xml:lang="en">Values: (false) Non-smoking,  (true) Smoking.</documentation>
+                </annotation>
+            </attribute>
+-->
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

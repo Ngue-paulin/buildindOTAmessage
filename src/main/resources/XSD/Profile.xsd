@@ -1,0 +1,3087 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.w3.org/2001/XMLSchema">
+    <include schemaLocation="Privacy.xsd"/>
+    <include schemaLocation="OTA_v2ent.xsd"/>
+    <include schemaLocation="UniqueId.xsd"/>
+    <group name="SeatingPref">
+        <sequence>
+            <element ref="SeatingPref"/>
+        </sequence>
+    </group>
+    <group name="UniqueId">
+        <sequence>
+            <element ref="UniqueId"/>
+        </sequence>
+    </group>
+    <group name="CompanyName">
+        <sequence>
+            <element ref="CompanyName"/>
+        </sequence>
+    </group>
+    <group name="Telephone">
+        <sequence>
+            <element ref="Telephone"/>
+        </sequence>
+    </group>
+    <group name="PersonName">
+        <sequence>
+            <element ref="PersonName"/>
+        </sequence>
+    </group>
+    <element name="Profile">
+        <annotation>
+            <documentation>Root element for profile content.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="Accesses" minOccurs="0"/>
+                <element ref="Customer" minOccurs="0"/>
+                <element ref="Preferences" minOccurs="0"/>
+                <element ref="CompanyInfo" minOccurs="0"/>
+                <element ref="Affiliations" minOccurs="0"/>
+                <element ref="Agreements" minOccurs="0"/>
+                <element ref="TPA_Extensions" minOccurs="0"/>
+            </sequence>
+            <attribute name="ShareAllSynchInd" default="No">
+                <annotation>
+                    <documentation>Permission for sharing all data in profile for synchronization of profiles held by other travel service providers.
+                    </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="ShareAllMarketInd" default="No">
+                <annotation>
+                    <documentation>Permission for sharing all data in profile for marketing purposes.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="ProfileType" use="required">
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Customer"/>
+                        <enumeration value="GDS"/>
+                        <enumeration value="Corporation"/>
+                        <enumeration value="Trvl_Agnt"/>
+                        <enumeration value="Wholesaler"/>
+                        <enumeration value="Group"/>
+                        <enumeration value="TourOperator"/>
+                        <enumeration value="CRO"/>
+                        <enumeration value="RepCompany"/>
+                        <enumeration value="InternetBroker"/>
+                        <enumeration value="Airline"/>
+                        <enumeration value="Hotel"/>
+                        <enumeration value="CarRental"/>
+                        <enumeration value="CruiseLine"/>
+                        <enumeration value="Employee"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="Accesses">
+        <annotation>
+            <documentation>Element to capture creation and last update data.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="Access" maxOccurs="unbounded"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="CreateDateTime" type="xsd:string">
+                <annotation>
+                    <documentation>Month, day, year and optionally hour, minute, second of day the profile originated, in ISO 8601 format.
+                    </documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="Access">
+        <annotation>
+            <documentation>Describes the action taken on the record.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="AccessPerson" minOccurs="0"/>
+                <element ref="AccessComment" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute name="ActionType">
+                <annotation>
+                    <documentation>Type of action taken on the profile. </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Create"/>
+                        <enumeration value="Read"/>
+                        <enumeration value="Update"/>
+                        <enumeration value="Delete"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="ActionDateTime" type="xsd:string">
+                <annotation>
+                    <documentation>Month, day, year and optionally in hour, minute, second of day in ISO 8601 format of the action taken on the profile.
+                    </documentation>
+                </annotation>
+            </attribute>
+            <attribute name="ActionSystemId" type="xsd:string">
+                <annotation>
+                    <documentation>The identifier of the system that performed the action on the profile record. </documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="AccessPerson" type="xsd:string">
+        <annotation>
+            <documentation>Name of individual who originated or updated record.</documentation>
+        </annotation>
+    </element>
+    <element name="AccessComment" type="xsd:string">
+        <annotation>
+            <documentation>Free text comment added by the person accessing the profile record. </documentation>
+        </annotation>
+    </element>
+    <element name="Customer">
+        <annotation>
+            <documentation>Contains basic data on the customer's identity, location, relationships, finances, memberships, etc.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <choice>
+                    <sequence>
+                        <element ref="PersonName" maxOccurs="unbounded"/>
+                        <element ref="TelephoneInfo" minOccurs="0" maxOccurs="unbounded"/>
+                        <element ref="Email" minOccurs="0" maxOccurs="unbounded"/>
+                    </sequence>
+                    <sequence>
+                        <element ref="TelephoneInfo" maxOccurs="unbounded"/>
+                        <element ref="Email" minOccurs="0" maxOccurs="unbounded"/>
+                    </sequence>
+                    <choice>
+                        <element ref="Email" maxOccurs="unbounded"/>
+                    </choice>
+                </choice>
+                <element ref="AddressInfo" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="URL" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="CitizenCountryName" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PhysChallName" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PetInfo" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PaymentForm" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="RelatedTraveler" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="ContactPerson" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="Document" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="CustLoyalty" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute name="Gender">
+                <annotation>
+                    <documentation>Indicates the gender of the person identified in this profile. </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Male"/>
+                        <enumeration value="Female"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="Deceased" default="No">
+                <annotation>
+                    <documentation>Notes if individual in this profile has died. </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="LockoutType" type="xsd:string">
+                <annotation>
+                    <documentation>Indicates reason for locking out record, such as Emergency, Incident, etc. </documentation>
+                </annotation>
+            </attribute>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="BirthDate" type="xsd:string">
+                <annotation>
+                    <documentation>Indicates self-professed date of birth, in ISO 8901 prescribed format.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="Currency" type="xsd:string">
+                <annotation>
+                    <documentation>Type of funds preferred for reviewing monetary values, in ISO 4217 codes.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="PersonName">
+        <annotation>
+            <documentation>Names of the individual, includes former, nicknames, and alternate names.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="NamePrefix" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="GivenName" minOccurs="0"/>
+                <element ref="MiddleName" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="Surname"/>
+                <element ref="NameSuffix" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="NameTitle" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute name="DefaultInd">
+                <annotation>
+                    <documentation>Indicates that the receiving system should assume the default value if the user specifies no overriding
+                        value or action.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="NameType" type="xsd:string">
+                <annotation>
+                    <documentation>Type of name of the individual, such as former, nickname, alternate or alias name. </documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="NamePrefix" type="xsd:string">
+        <annotation>
+            <documentation>Salutation of honorific. (e.g., Mr. Mrs., Ms., Miss, Dr., etc.)</documentation>
+        </annotation>
+    </element>
+    <element name="GivenName" type="xsd:string">
+        <annotation>
+            <documentation>Given name, first name or names.</documentation>
+        </annotation>
+    </element>
+    <element name="MiddleName" type="xsd:string">
+        <annotation>
+            <documentation>Middle name or names.</documentation>
+        </annotation>
+    </element>
+    <element name="Surname" type="xsd:string">
+        <annotation>
+            <documentation>Family name, last name. Required for identification of the individual in the profile. </documentation>
+        </annotation>
+    </element>
+    <element name="NameSuffix" type="xsd:string">
+        <annotation>
+            <documentation>Suffix (e.g., Jr., Sr., III, Ret., Esq., etc.)</documentation>
+        </annotation>
+    </element>
+    <element name="NameTitle" type="xsd:string">
+        <annotation>
+            <documentation>Degree or honors (e.g., Ph.D., M.D., etc.)</documentation>
+        </annotation>
+    </element>
+    <element name="TelephoneInfo">
+        <annotation>
+            <documentation>Information about the telephone numbers of the individual in the profile.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="Telephone"/>
+            </sequence>
+            <attribute name="DefaultInd">
+                <annotation>
+                    <documentation>Indicates that the receiving system should assume the default value if the user specifies no overriding value or action.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="PhoneUseType" type="xsd:string">
+                <annotation>
+                    <documentation>Describes the type of telephone number, in the context of its general use, such as Home, Business, Emergency Contact,
+                        Travel Arranger, Day, Evening, etc.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="Telephone">
+        <annotation>
+            <documentation>Telephone numbers for the parties in the profile.</documentation>
+        </annotation>
+        <complexType>
+            <attribute name="PhoneTechType" type="xsd:string">
+                <annotation>
+                    <documentation>Indicates type of technology associated with this telephone number, such as Voice, Data, Fax, Pager, Cell, TTY, etc.
+                    </documentation>
+                </annotation>
+            </attribute>
+            <attribute name="CountryAccessCode" type="xsd:string">
+                <annotation>
+                    <documentation>Code assigned by telecommunications authorities for international country access identifier.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="AreaCityCode" type="xsd:string" use="required">
+                <annotation>
+                    <documentation>Code assigned for telephones in a specific region, city, or area.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="PhoneNumber" type="xsd:string" use="required">
+                <annotation>
+                    <documentation>Telephone number assigned to a single location.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="Extension" type="xsd:string">
+                <annotation>
+                    <documentation>Extension to reach a specific party at the phone number.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="PIN" type="xsd:string">
+                <annotation>
+                    <documentation>Additional codes used for pager or telephone access rights.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="Email">
+        <annotation>
+            <documentation>Electronic email addresses, in IETF specified format.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="DefaultInd">
+                        <annotation>
+                            <documentation>Indicates that the receiving system should assume the default value if the user specifies no overriding value or action.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Yes"/>
+                                <enumeration value="No"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attributeGroup ref="Privacy"/>
+                    <attribute name="EmailType" type="xsd:string">
+                        <annotation>
+                            <documentation>Defines the purpose of the Email address, such as personal, business, listserve, etc.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="AddressInfo">
+        <annotation>
+            <documentation>Information about the addresses in the profile that identify locations for specific purposes.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="Address"/>
+            </sequence>
+            <attribute name="DefaultInd">
+                <annotation>
+                    <documentation>Indicates that the receiving system should assume the default value if the user specifies no overriding value or action.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="AddressType">
+                <annotation>
+                    <documentation>Defines what the purpose of the address is, such as home, business, mailing, delivery,
+                        shipping/receiving address, etc.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Home"/>
+                        <enumeration value="Business"/>
+                        <enumeration value="Delivery"/>
+                        <enumeration value="Mailing"/>
+                        <enumeration value="Billing"/>
+                        <enumeration value="CreditCard"/>
+                        <enumeration value="Other"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="Address">
+        <annotation>
+            <documentation>Defines a physical address of parties in the profile.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="StreetNmbr" minOccurs="0"/>
+                <element ref="BldgRoom" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AddressLine" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="CityName" minOccurs="0"/>
+                <element ref="StateProv" minOccurs="0"/>
+                <element ref="CountryName" minOccurs="0"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="StreetNmbr">
+        <annotation>
+            <documentation>Street name; number on street.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PO_Box" type="xsd:string">
+                        <annotation>
+                            <documentation>Defines a Post Office Box number.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="BldgRoom" type="xsd:string">
+        <annotation>
+            <documentation>Building name, room, apartment, or suite number.</documentation>
+        </annotation>
+    </element>
+    <element name="AddressLine">
+        <annotation>
+            <documentation>Additional line of an address as needed to define a physical location.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="ParsedInd">
+                        <annotation>
+                            <documentation>Indicates if the data in the AddressLine field is parsed.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Yes"/>
+                                <enumeration value="No"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="CityName">
+        <annotation>
+            <documentation>Name of city or town.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PostalCode" type="xsd:string">
+                        <annotation>
+                            <documentation>Identifier for location assigned by postal authorities.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="StateProv">
+        <annotation>
+            <documentation>State, province, or region name or code needed to identify location.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="StateCode" type="xsd:string">
+                        <annotation>
+                            <documentation>The postal service standard code or abbreviation for the state, province, or region.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="CountryName">
+        <annotation>
+            <documentation>The name of the country specified in the address.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="CountryCode" type="xsd:string">
+                        <annotation>
+                            <documentation>ISO 3166 code for country in address.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="URL">
+        <annotation>
+            <documentation>Web site address, in IETF specified format.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="DefaultInd">
+                        <annotation>
+                            <documentation>Indicates that the receiving system should assume the default value if the user specifies no overriding
+                                value or action.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Yes"/>
+                                <enumeration value="No"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attributeGroup ref="Privacy"/>
+                    <attribute name="URL_Type" type="xsd:string">
+                        <annotation>
+                            <documentation>Defines the purpose of the URL address, such as personal, business, public, etc.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="CitizenCountryName">
+        <annotation>
+            <documentation>Self-professed country or countries that customer claims for citizenship.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="DefaultInd">
+                        <annotation>
+                            <documentation>Indicates that the receiving system should assume the default value if the user specifies no overriding value or action.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Yes"/>
+                                <enumeration value="No"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="CountryCode" type="xsd:string">
+                        <annotation>
+                            <documentation>ISO 3166 code for country indicated for citizenship.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="PhysChallName" type="xsd:string">
+        <annotation>
+            <documentation>Any special physical conditions that can affect travel choices, including allergies.</documentation>
+        </annotation>
+    </element>
+    <element name="PetInfo" type="xsd:string">
+        <annotation>
+            <documentation>Information about pets that may accompany customer while traveling.</documentation>
+        </annotation>
+    </element>
+    <element name="PaymentForm">
+        <annotation>
+            <documentation>Ways of providing funds for travel by the individual.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CreditCard" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="BankAcct" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="DirectBill" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="Voucher" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="CostCenterId" type="xsd:string">
+                <annotation>
+                    <documentation>Identification for allocating cost of travel to  company account.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="RPH" type="xsd:string">
+                <annotation>
+                    <documentation>A Reference Place Holder that serves as an index to the collection of payments forms stored in the profile
+                        record. The RPH may be used to reference a method of payment from outside the profile.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="CreditCard">
+        <annotation>
+            <documentation>Payment accounts authorizing purchases represented by plastic cards often with magnetic strips with data for identification.
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CardHolderName" minOccurs="0"/>
+                <element ref="CardIssuerName" minOccurs="0"/>
+                <element ref="Address" minOccurs="0"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="CardType">
+                <annotation>
+                    <documentation>Indicates the type of magnetic striped card.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Credit"/>
+                        <enumeration value="Debit"/>
+                        <enumeration value="CentralBill"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="CreditCardCode" type="xsd:string">
+                <annotation>
+                    <documentation>Code indicating the type of credit card (e.g., MasterCard, Visa, American Express, etc.)</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="CardNumber" type="xsd:string" use="required">
+                <annotation>
+                    <documentation>Credit card number embossed on the card.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="SeriesCode" type="xsd:string">
+                <annotation>
+                    <documentation>Verification digits printed on the card following the embossed number.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="EffectiveDate" type="xsd:string">
+                <annotation>
+                    <documentation>Date the card becomes valid for use in ISO 8601 prescribed format.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="ExpireDate" type="xsd:string" use="required">
+                <annotation>
+                    <documentation>Date the card expires and can no longer be used in ISO 8601 prescribed format.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="CardHolderName" type="xsd:string">
+        <annotation>
+            <documentation>Name of individual cardholder as embossed on the credit/debit card.</documentation>
+        </annotation>
+    </element>
+    <element name="CardIssuerName">
+        <annotation>
+            <documentation>Name of bank or organization issuing the card (e.g., alumni association, bank, fraternal organization, etc.).
+            </documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="IssuingBankId" type="xsd:string">
+                        <annotation>
+                            <documentation>Code of bank issuing the card.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="BankAcct">
+        <annotation>
+            <documentation>Customer bank accounts for payments, either for paper checks or electronic funds transfer.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="BankAcctName" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="BankId" type="xsd:string">
+                <annotation>
+                    <documentation>Code assigned by authorities to financial institutions; sometimes called bank routing number.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="AcctType" type="xsd:string">
+                <annotation>
+                    <documentation>Describes the bank account used for financing travel, such as: Checking, Savings, Investment, etc.
+                    </documentation>
+                </annotation>
+            </attribute>
+            <attribute name="BankAcctNumber" type="xsd:string">
+                <annotation>
+                    <documentation>Identifier for the account assigned by the bank.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="BankAcctName" type="xsd:string">
+        <annotation>
+            <documentation>Names of the individuals as listed on the bank account.</documentation>
+        </annotation>
+    </element>
+    <element name="DirectBill">
+        <annotation>
+            <documentation>Company name and location for sending invoice for remittances for travel services.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CompanyName"/>
+                <element ref="Address"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="DirectBill_Id" type="xsd:string" use="required">
+                <annotation>
+                    <documentation>Identifier for the organization to be billed directly for travel services.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="Voucher">
+        <annotation>
+            <documentation>A form of payment using a voucher or coupon.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="EffectiveDate" type="xsd:string">
+                        <annotation>
+                            <documentation>The date when a voucher becomes valid for use, if applicable.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="ExpireDate" type="xsd:string">
+                        <annotation>
+                            <documentation>The date when a voucher or series of coupons expires and is no longer valid.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="SeriesCode" type="xsd:string">
+                        <annotation>
+                            <documentation>Identification of a series of coupons or vouchers identified by serial number(s).</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="RelatedTraveler">
+        <annotation>
+            <documentation>Other travel profiles associated with an individual.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="UniqueId"/>
+                <element ref="PersonName"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="Relation" type="xsd:string">
+                <annotation>
+                    <documentation>Indicates the type of relationship with the person in the profile, such as Spouse, Child, Family, Business Associate,
+                        Interest Group, Medical, Security, Other, etc.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="ContactPerson">
+        <annotation>
+            <documentation>Names of individuals to contact.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="PersonName"/>
+                <element ref="TelephoneInfo" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AddressInfo" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="Email" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="URL" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="CompanyName" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="EmployeeInfo" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute name="DefaultInd">
+                <annotation>
+                    <documentation>Indicates that the receiving system should assume the default value if the user specifies no overriding value
+                        or action. </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="ContactType" type="xsd:string">
+                <annotation>
+                    <documentation>Type of contact in the context of use for the travel experience; such as permanent, temporary, affiliation,
+                        travel arranger, etc.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="Relation" type="xsd:string">
+                <annotation>
+                    <documentation>Indicates the type of relationship with the person or company in the profile, such as Spouse, Child, Family, Business Associate,
+                        Interest Group, Medical, Security,Other, etc.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="EmergencyFlag" type="xsd:string">
+                <annotation>
+                    <documentation>Indicates if this contact should be used in the case of an emergency.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="RPH" type="xsd:string">
+                <annotation>
+                    <documentation>A Reference Place Holder that serves as an index to the collection of contacts stored in the profile record.
+                        The RPH may be used to reference a contact from outside the profile, e.g.: in a reservation</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="Document">
+        <annotation>
+            <documentation>Government-issued documents for travel.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="DocHolderName" minOccurs="0"/>
+                <element ref="DocIssueAuthority" minOccurs="0"/>
+                <element ref="DocIssueLocation" minOccurs="0"/>
+                <element ref="DocLimitations" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="DocId" type="xsd:string">
+                <annotation>
+                    <documentation>Unique number assigned by authorities to document.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="DocType" type="xsd:string">
+                <annotation>
+                    <documentation>Indicates the type of travel documents held by the person.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="Gender">
+                <annotation>
+                    <documentation>Gender can be used to identify documents.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Male"/>
+                        <enumeration value="Female"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="BirthDate" type="xsd:string">
+                <annotation>
+                    <documentation>Indicates the date of birth as indicated in the document, in ISO 8601 prescribed formatt.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="EffectiveDate" type="xsd:string">
+                <annotation>
+                    <documentation>Indicates the date on which the document takes effect.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="ExpireDate" type="xsd:string">
+                <annotation>
+                    <documentation>Indicates the date after which the document is no longer valid, in ISO 8601 format.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="DocHolderName" type="xsd:string">
+        <annotation>
+            <documentation>Name of person given on the document.</documentation>
+        </annotation>
+    </element>
+    <element name="DocIssueAuthority" type="xsd:string">
+        <annotation>
+            <documentation>Government authority issuing document. If a national document, use ISO 3166 code to indicate the code of the country
+                issuing the document.</documentation>
+        </annotation>
+    </element>
+    <element name="DocIssueLocation" type="xsd:string">
+        <annotation>
+            <documentation>City, state/province in which the document was issued.</documentation>
+        </annotation>
+    </element>
+    <element name="DocLimitations" type="xsd:string">
+        <annotation>
+            <documentation>Limitations on travel documents, such as visas for specific purposes, restrictions for entry into certain countries,
+                or corrective lenses for driver's license.</documentation>
+        </annotation>
+    </element>
+    <element name="CustLoyalty">
+        <annotation>
+            <documentation>Program rewarding frequent use by accumulating credits for services provided by vendors.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="ProgramCode" type="xsd:string">
+                        <annotation>
+                            <documentation>Identifying code for the loyalty program.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attributeGroup ref="Privacy"/>
+                    <attribute name="SingleVendorInd">
+                        <annotation>
+                            <documentation>Indicates if program is affiliated with a group of related offers accumulating credits.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="SingleVndr"/>
+                                <enumeration value="Alliance"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="MembershipId" type="xsd:string">
+                        <annotation>
+                            <documentation>Unique identifier of the member in the program, ie. membership number, account number, etc.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="LoyalLevel" type="xsd:string">
+                        <annotation>
+                            <documentation>Indicates special privileges in program assigned to individual.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="SignupDate" type="xsd:string">
+                        <annotation>
+                            <documentation>Indicates when the member signed up for the loyalty program.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="EffectiveDate" type="xsd:string">
+                        <annotation>
+                            <documentation>Indicates when privileges of membership in the loyalty program starts.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="ExpireDate" type="xsd:string">
+                        <annotation>
+                            <documentation>Indicates when membership in the loyalty program expires.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="RPH" type="xsd:string">
+                        <annotation>
+                            <documentation>Reference or index number to be used to identify this loyalty program.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="Preferences">
+        <annotation>
+            <documentation>Needs of the traveler related to travel experiences.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="PrefCollection" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+        </complexType>
+    </element>
+    <element name="PrefCollection">
+        <annotation>
+            <documentation>Unique aggregation of customer travel needs.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CommonPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="VehicleRentalPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AirlinesPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="HotelPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="OtherSrvcPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TPA_Extensions" minOccurs="0"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="TravelType" type="xsd:string">
+                <annotation>
+                    <documentation>Identifes the category of travel for a group of preferences.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="CommonPref">
+        <annotation>
+            <documentation>Travel needs associated with a collection but independent of specific travel services.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="NamePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PhonePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AddressPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PaymentFormPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="InterestPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="InsurancePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="SeatingPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TicketDistribPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="MediaEntertainPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PetInfoPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="MealPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="LoyaltyPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="SpecRequestPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="RelatedTravelerPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TPA_Extensions" minOccurs="0"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="SmokingInd">
+                <annotation>
+                    <documentation>Indicates preference of smoking or no-smoking.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="PrimaryLanguage" type="xsd:string">
+                <annotation>
+                    <documentation>Identifes the primary language preference for the form of travel represented in a collection.
+                        The human language is identified by ISO 639 codes.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="AltLanguage" type="xsd:string">
+                <annotation>
+                    <documentation>Identifes the alternate language preferred by the customer for the form of travel specified in a collection.
+                        The human language is identified by ISO 639 codes.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="VehicleRentalPref">
+        <annotation>
+            <documentation>Vehicle Rental Preferences.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="LoyaltyPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="VendorPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PaymentFormPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="VehicleCoveragePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="SpecRequestPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="VehicleTypePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="VehicleClassPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AirConditionPref" minOccurs="0"/>
+                <element ref="TransmissionPref" minOccurs="0"/>
+                <element ref="CellPhonePref" minOccurs="0"/>
+                <element ref="GlobalNavPref" minOccurs="0"/>
+                <element ref="PhysChallEquipPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="ChildSeatPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TPA_Extensions" minOccurs="0"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="PreferLevel" default="Preferred">
+                <annotation>
+                    <documentation>Indicates the level of preference for the vehicle rental collection.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Only"/>
+                        <enumeration value="Unacceptable"/>
+                        <enumeration value="Preferred"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="SmokingInd">
+                <annotation>
+                    <documentation>Indicates preference of smoking or no-smoking.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="CarRenterType" type="xsd:string">
+                <annotation>
+                    <documentation>Category of renter.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="GasPrePayInd">
+                <annotation>
+                    <documentation>Indicates preference for prepaid fuel option.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="AirlinesPref">
+        <annotation>
+            <documentation>Identifes a collection of preferences for airline travel.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="LoyaltyPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="VendorPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PaymentFormPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AirportOriginPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AirportRoutePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AirFareRestrictPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="FlightTypePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AirEquipPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AirCabinPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AirSrvcClassPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AirSeatPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TicketDistribPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="MediaEntertainPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PetInfoPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="MealPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="SpecRequestPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="AirSSR_Pref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TPA_Extensions" minOccurs="0"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="PreferLevel" default="Preferred">
+                <annotation>
+                    <documentation>Indicates level of preference for the special request.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Only"/>
+                        <enumeration value="Unacceptable"/>
+                        <enumeration value="Preferred"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="SmokingInd">
+                <annotation>
+                    <documentation>Indicates preference of smoking or no-smoking.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="AirPassengerType" type="xsd:string">
+                <annotation>
+                    <documentation>Category of airline passenger, using standard ATPCO codes.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="AirTicketType">
+                <annotation>
+                    <documentation>Type of airline ticket preferred for this collection.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Electronic"/>
+                        <enumeration value="Paper"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="HotelPref">
+        <annotation>
+            <documentation>Hotel Preferences used for this collection.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="LoyaltyPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PaymentFormPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="HotelChainPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PropertyNamePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PropertyLocationPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PropertyTypePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PropertyClassPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PropertyAmenityPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="RoomAmenityPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="RoomLocationPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="BedTypePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="FoodSrvcPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="MealPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="MediaEntertainPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PetInfoPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="RecreationSrvcPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="BusinessSrvcPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PersonalSrvcPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="SecurityFeaturePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PhysChallFeaturePref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="SpecRequestPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TPA_Extensions" minOccurs="0"/>
+            </sequence>
+            <attribute name="PreferLevel" default="Preferred">
+                <annotation>
+                    <documentation>Indicates the level of preference for the hotel collection.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Only"/>
+                        <enumeration value="Unacceptable"/>
+                        <enumeration value="Preferred"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="RatePlanCode" type="xsd:string">
+                <annotation>
+                    <documentation>Code identifying preferred hotel rate plan for this travel situation</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="SmokingInd">
+                <annotation>
+                    <documentation>Indicates preference of smoking or no-smoking.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="HotelGuestType" type="xsd:string">
+                <annotation>
+                    <documentation>Category of hotel guest.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="OtherSrvcPref">
+        <annotation>
+            <documentation>Other travel service preferences.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="OtherSrvcName" minOccurs="0"/>
+                <element ref="VendorPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="LoyaltyPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PaymentFormPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="SpecRequestPref" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TPA_Extensions" minOccurs="0"/>
+            </sequence>
+            <attribute name="PreferLevel" default="Preferred">
+                <annotation>
+                    <documentation>Indicates the level of preference for other travel services.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Only"/>
+                        <enumeration value="Unacceptable"/>
+                        <enumeration value="Preferred"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="OtherServiceType" type="xsd:string">
+                <annotation>
+                    <documentation>Category of other travel services.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="NamePref">
+        <annotation>
+            <documentation>PersonName to be used with this collection of preferences.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="UniqueId"/>
+                <element ref="PersonName"/>
+            </sequence>
+            <attribute name="PreferLevel" default="Preferred">
+                <annotation>
+                    <documentation>Indicated level of preference for the name indicated.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Only"/>
+                        <enumeration value="Unacceptable"/>
+                        <enumeration value="Preferred"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="PhonePref">
+        <annotation>
+            <documentation>Telephone number(s) to be used with this collection of preferences.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="Telephone"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="PhoneUseType" type="xsd:string">
+                <annotation>
+                    <documentation>Type of telephone number to be used for this preference collection.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="AddressPref">
+        <annotation>
+            <documentation>Address(es) to be used with this collection of preferences.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="Address"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="AddressType">
+                <annotation>
+                    <documentation>Defines what the purpose of the address is, such as home, business, mailing, delivery, shipping/receiving, etc.
+                    </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Home"/>
+                        <enumeration value="Business"/>
+                        <enumeration value="Delivery"/>
+                        <enumeration value="Mailing"/>
+                        <enumeration value="Billing"/>
+                        <enumeration value="CreditCard"/>
+                        <enumeration value="Other"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="PaymentFormPref">
+        <annotation>
+            <documentation>Form(s) of payment to be used with this collection of preferences.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the level of preference for the payment form to be used with the indicated preference.
+                            </documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="RPH" type="xsd:string">
+                        <annotation>
+                            <documentation> Identifies a specific form of payment by index number to be used to reference the payment form used in this travel collection.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="InterestPref">
+        <annotation>
+            <documentation>Traveler interests to be used with this collection of preferences.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicated level of preference for the interest indicated.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="InsurancePref">
+        <annotation>
+            <documentation>Identifies travel insurance policies to be used with this collection of preferences.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates level of preference for the insurance indicated.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="InsuranceRPH" type="xsd:string">
+                        <annotation>
+                            <documentation>Index number to be used for reference the insurance policy to be used in this travel collection.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="SeatingPref">
+        <annotation>
+            <documentation>Seating preferences to be used with this collection of preferences.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicated level of preference for the seating indicated.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="SeatDirection" type="xsd:string" use="required">
+                        <annotation>
+                            <documentation>Direction seat faces during travel, when conveyance allows.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="SeatLocation" type="xsd:string" use="required">
+                        <annotation>
+                            <documentation>Location of seat in cabin of conveyance.  Suggested values include: Forward, Middle, Aft, ExitRow, Bulkhead, Right or Left Side, etc.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="SeatPosition" type="xsd:string" use="required">
+                        <annotation>
+                            <documentation>Preferred position of seat in a row, such as Aisle, Middle, Center, Window, etc.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="SeatRow" type="xsd:string" use="required">
+                        <annotation>
+                            <documentation>Preferred row for seating, indicates specific row numver and/or seat identifier.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="TicketDistribPref">
+        <annotation>
+            <documentation>Type of ticket distribution to be used with this collection of preferences.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicated level of preference for the type of ticket distribution.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="DistribType" type="xsd:string">
+                        <annotation>
+                            <documentation>Ticket distribution method; such as Fax, Email, Courier, Mail, Airport_Pickup, City_Office, Hotel_Desk,
+                                WillCall, etc.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="TicketTime" type="xsd:string">
+                        <annotation>
+                            <documentation>Ticket turnaround time desired, amount of time requested to deliver tickets.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="MediaEntertainPref">
+        <annotation>
+            <documentation>Media and entertainment information preferences.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the media and entertainment identified.
+                            </documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="PetInfoPref">
+        <annotation>
+            <documentation>Indicates the preferences for information about pets that accompany the customer in a given travel situation.
+            </documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicated level of preference for the pet information identifiied.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="MealPref">
+        <annotation>
+            <documentation>Food and beverage preferences to be used with this collection.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the level of preference for the type of food and beverage indicated.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="MealType" type="xsd:string">
+                        <annotation>
+                            <documentation>Type of meal required (e.g.,vegetarian, Kosher, lowfat, etc.)</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="FavoriteFood" type="xsd:string">
+                        <annotation>
+                            <documentation>Dining preferences used with this collection.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="Beverage" type="xsd:string">
+                        <annotation>
+                            <documentation>Type of drink(s) preferred.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="LoyaltyPref">
+        <annotation>
+            <documentation>Loyalty programs to be used with this collection.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicated level of preference for the interest indicated.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="LoyaltyRPH" type="xsd:string">
+                        <annotation>
+                            <documentation>Identification of loyalty program by reference number or index.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="SpecRequestPref">
+        <annotation>
+            <documentation>Special request to be used with this collection of preferences.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicated level of preference for special request.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="RelatedTravelerPref">
+        <annotation>
+            <documentation>Name(s) of related travelers to be used with this collection of preferences.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="UniqueId"/>
+            </sequence>
+            <attribute name="PreferLevel" default="Preferred">
+                <annotation>
+                    <documentation>Indicated level of preference for the related traveler.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Only"/>
+                        <enumeration value="Unacceptable"/>
+                        <enumeration value="Preferred"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="VendorPref">
+        <annotation>
+            <documentation>Indicates the preferred vendor company.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CompanyName"/>
+            </sequence>
+            <attribute name="PreferLevel" default="Preferred">
+                <annotation>
+                    <documentation>Indicates the customer's level of preference for the vendor identified.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Only"/>
+                        <enumeration value="Unacceptable"/>
+                        <enumeration value="Preferred"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="VehicleCoveragePref">
+        <annotation>
+            <documentation>Insurance coverage for car rentals associated with this collection.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CoverSupplement" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="CoverDescription" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="CoverLimits" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="CoverageType" type="xsd:string">
+                <annotation>
+                    <documentation>Category of insurance preferred by the customer, such as: Effects, Personal, Baggage, Vehicle damage, Liability,
+                        Theft, Young Driver, etc.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="CoverageCode" type="xsd:string">
+                <annotation>
+                    <documentation>Industry code for type of insurance coverage.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="VehicleTypePref">
+        <annotation>
+            <documentation>Major category of vehicle, (e.g., car, truck, van, SUV, etc.) </documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the customer's level of preference for the vehicle type identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="VehicleType" use="required">
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Car"/>
+                                <enumeration value="Van"/>
+                                <enumeration value="SUV"/>
+                                <enumeration value="Convertible"/>
+                                <enumeration value="Truck"/>
+                                <enumeration value="Motorcycle"/>
+                                <enumeration value="Limo"/>
+                                <enumeration value="StationWagon"/>
+                                <enumeration value="PickUp"/>
+                                <enumeration value="MotorHome"/>
+                                <enumeration value="Other"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="VehicleClassPref">
+        <annotation>
+            <documentation>Detailed type of vehicle, such as Mini, Economy, Compact, Midsize, Intermediate, Standard, Luxury, Fullsize,
+                Convertible, Minivan, etc.).</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the customer's level of preference for the vehicle class identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="VehicleClass" use="required">
+                        <annotation>
+                            <documentation>Additional modifier of vehicle class.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Mini"/>
+                                <enumeration value="Subcompact"/>
+                                <enumeration value="Economy"/>
+                                <enumeration value="Compact"/>
+                                <enumeration value="Midsize"/>
+                                <enumeration value="Intermediate"/>
+                                <enumeration value="Standard"/>
+                                <enumeration value="Fullsize"/>
+                                <enumeration value="Luxury"/>
+                                <enumeration value="Premium"/>
+                                <enumeration value="Minivan"/>
+                                <enumeration value="12_Passenger_Van"/>
+                                <enumeration value="Moving_Van"/>
+                                <enumeration value="15_Passenger_Van"/>
+                                <enumeration value="Cargo_Van"/>
+                                <enumeration value="12_Foot_Truck"/>
+                                <enumeration value="20_Foot_Truck"/>
+                                <enumeration value="24_Foot_Truck"/>
+                                <enumeration value="26_Foot_Truck"/>
+                                <enumeration value="Moped"/>
+                                <enumeration value="Stretch"/>
+                                <enumeration value="Regular"/>
+                                <enumeration value="Unique"/>
+                                <enumeration value="Exotic"/>
+                                <enumeration value="Other"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="AirConditionPref">
+        <annotation>
+            <documentation>Indicates preference for air conditioning in a rental car.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the customer's level of preference for the car rental air conditioning equipment identified.
+                            </documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="TransmissionPref">
+        <annotation>
+            <documentation>Describes the type of transmission preferred in a rental car (e.g., manual or automatic)</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the customer's level of preference for the type of car transmission identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="CellPhonePref">
+        <annotation>
+            <documentation>Indicates the preference for a cellular phone in a rented car.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the customer's level of preference for the car rental cell phone equipment identifed.
+                            </documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="GlobalNavPref">
+        <annotation>
+            <documentation>Indicates a preference for a global navigation system in a rental car.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the customer's level of preference for the car rental global navigation equipment identified.
+                            </documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="PhysChallEquipPref">
+        <annotation>
+            <documentation>Describes the equipment needed for drivers with special physical challenges.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the customer's level of preference for the car rental physically challenged equipment identified.
+                            </documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="ChildSeatPref">
+        <annotation>
+            <documentation>Indicates requirements for child seats in a rental car.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the level of preference for the car rental child seat identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="ChildSeatType" type="xsd:string">
+                        <annotation>
+                            <documentation>Type of child seat needed in a rental car (e.g., infant, booster, etc.).</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="Quantity" type="xsd:string">
+                        <annotation>
+                            <documentation>Number of seats of the type indicated in ChildSeat attribute.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="CoverSupplement" type="xsd:string">
+        <annotation>
+            <documentation>Supplemental insurance coverage for rental cars.</documentation>
+        </annotation>
+    </element>
+    <element name="CoverDescription" type="xsd:string">
+        <annotation>
+            <documentation>Description of insurance coverage for rental cars.</documentation>
+        </annotation>
+    </element>
+    <element name="CoverLimits" type="xsd:string">
+        <annotation>
+            <documentation>Limitations on car insurance coverage, such as minimums, maximums, or per occurence.</documentation>
+        </annotation>
+    </element>
+    <element name="AirportOriginPref">
+        <annotation>
+            <documentation>Departure airport preferences, using IATA airport codes.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the origin airport.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="AirportRoutePref">
+        <annotation>
+            <documentation>Indicates the customer's preference for connecting airport, using IATA airport codes.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the airport routing identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="AirFareRestrictPref">
+        <annotation>
+            <documentation>Identifies preferences for airfare restrictions acceptable or not acceptable for a given travel situation.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the type of fare restriction identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="FareRestrictType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="FlightTypePref">
+        <annotation>
+            <documentation>Indicates preferences for certain types of flights, such as connections or stopovers, when used for a specific travel situation.
+            </documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the flight type identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="AirEquipPref">
+        <annotation>
+            <documentation>Identifies the type of make/model of aircraft preferred in a travel situation.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the type of aircraft identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="AirEquipType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="AirCabinPref">
+        <annotation>
+            <documentation>Indicates preferences for choice of airline cabin for a given travel situation.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the airline cabin type identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="CabinType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="AirSrvcClassPref">
+        <annotation>
+            <documentation>Indicates preference for type of service class for air travel in a given situation, such as First Class, Business, Economy, SuperSaver, etc.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>>Identifies the customer's level of preference for the airline service class identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="ServiceClassCode" type="xsd:string">
+                        <annotation>
+                            <documentation>Identifies the type of service class preferred for airline travel, using standard industry codes
+                                for service classes</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="AirSeatPref">
+        <annotation>
+            <documentation>Indicates preferences for seating arrangements for air travel.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="SeatingPref"/>
+            </sequence>
+            <attribute name="PreferLevel" default="Preferred">
+                <annotation>
+                    <documentation>Identifies the customer's level of preference for the airline seating identified.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Only"/>
+                        <enumeration value="Unacceptable"/>
+                        <enumeration value="Preferred"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="AirSSR_Pref">
+        <annotation>
+            <documentation>Identifies preferences for special services required for air travel, using standard industry (SSR-OSI) code list.
+            </documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the air travel special service request identified.
+                            </documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="SSR_Code" type="xsd:string">
+                        <annotation>
+                            <documentation>Code of the special service request to be used for this air travel situation. Refers to standard industry code list.	</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="HotelChainPref">
+        <annotation>
+            <documentation>Company identifier for hotel chain associated with this collection of preferences.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CompanyName"/>
+            </sequence>
+            <attribute name="PreferLevel" default="Preferred">
+                <annotation>
+                    <documentation>Identifies the customer's level of preference for the hotel chain identified.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Only"/>
+                        <enumeration value="Unacceptable"/>
+                        <enumeration value="Preferred"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="PropertyNamePref">
+        <annotation>
+            <documentation>Name of preferred hotel property associated with this collection.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel property identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="PropertyLocationPref">
+        <annotation>
+            <documentation>Indicates preferences for hotel property locations.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the level of preference for the property location identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="PropertyLocationType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="PropertyTypePref">
+        <annotation>
+            <documentation>Indicates preference for hotel property location types.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel location type identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="PropertyType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="PropertyClassPref">
+        <annotation>
+            <documentation>Indicates preferences for class of hotel property.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel property class identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="PropertyClassType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="PropertyAmenityPref">
+        <annotation>
+            <documentation>Indicates preferences for hotel property amenities.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel property amenity identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="PropertyAmenityType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="RoomAmenityPref">
+        <annotation>
+            <documentation>Indicates preferences for hotel room amenities.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel room amenity identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="RoomAmenityType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="RoomLocationPref">
+        <annotation>
+            <documentation>Indicates preferences for hotel room locations.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel room location identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="RoomLocationType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="BedTypePref">
+        <annotation>
+            <documentation>Indicates preferences for the size and features of hotel bed types.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Indicates the level of preference for the bed type requested.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="BedType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="FoodSrvcPref">
+        <annotation>
+            <documentation>Indicates preferences for type of food service facilities in a hotel.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel food service identified.
+                            </documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="FoodSrvcType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="RecreationSrvcPref">
+        <annotation>
+            <documentation>Indicates preferences for type of recreation services in a hotel.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel recreational service identified.
+                            </documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="RecreationSrvcType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="BusinessSrvcPref">
+        <annotation>
+            <documentation>Indicates preferences for type of business services in a hotel.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel business service identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="BusinessSrvcType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="PersonalSrvcPref">
+        <annotation>
+            <documentation>Indicates preferences for type of personal services in a hotel.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel personal service identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="PersonalSrvcType" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="SecurityFeaturePref">
+        <annotation>
+            <documentation>Indicates preferences for type of security features in a hotel.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel security feature identified.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="PhysChallFeaturePref">
+        <annotation>
+            <documentation>Indicates preferences for type of features required to meet the needs of persons with physical challenges, disabilities, etc.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="PreferLevel" default="Preferred">
+                        <annotation>
+                            <documentation>Identifies the customer's level of preference for the hotel physically challenged feature identified.
+                            </documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Only"/>
+                                <enumeration value="Unacceptable"/>
+                                <enumeration value="Preferred"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="PhysChallFeature" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="OtherSrvcName" type="xsd:string">
+        <annotation>
+            <documentation>Name of other travel services identified in this collection of preferences.</documentation>
+        </annotation>
+    </element>
+    <element name="CompanyInfo">
+        <complexType>
+            <sequence>
+                <element ref="CompanyName" maxOccurs="unbounded"/>
+                <element ref="AddressInfo" maxOccurs="unbounded"/>
+                <element ref="TelephoneInfo" maxOccurs="unbounded"/>
+                <element ref="Email" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="URL" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="BusinessLocale" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="PaymentForm" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="ContactPerson" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TravelArranger" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="LoyaltyProgram" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="CompanyName">
+        <annotation>
+            <documentation>Identifies a company by name.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="CompanyCode" type="xsd:string">
+                        <annotation>
+                            <documentation>Identifies a company by the company code.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="CodeContext" type="xsd:string">
+                        <annotation>
+                            <documentation>Identifies the context of the identifying code, such as DUNS, IATA, ARC, or internal code, etc.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="BusinessLocale">
+        <annotation>
+            <documentation>The jurisdiction in which a company is authorized to do business. Uses the Address entity to indicate the location of business using any of the components of the address (e.g., city, state, zip code, country, etc.)</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="Address"/>
+            </sequence>
+            <attribute name="DefaultInd">
+                <annotation>
+                    <documentation>Indicates whether the business location is the default choice among several.  The default
+                        business locale could be used to indicate the primary place of business or incorporation. </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="LoyaltyProgram">
+        <annotation>
+            <documentation>Identifies a membership or loyalty program offered by the company by name of the program.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="ProgramCode" type="xsd:string">
+                        <annotation>
+                            <documentation>Identification of the loyalty program by code.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="SingleVendorInd">
+                        <annotation>
+                            <documentation>Indicates whether the loyalty program is a part of an alliance with other partners.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="SingleVndr"/>
+                                <enumeration value="Alliance"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="LoyaltyLevel" type="xsd:string"/>
+                    <attribute name="RPH" type="xsd:string"/>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="Affiliations">
+        <annotation>
+            <documentation>Defines an entity that provides travel services or benefits to a customer or company.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="Organization" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="Employer" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TravelArranger" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TravelClub" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="Insurance" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TPA_Extensions" minOccurs="0"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+        </complexType>
+    </element>
+    <element name="Organization">
+        <annotation>
+            <documentation>Membership organization that has travel benefits, programs, or discounts.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="OrgMemberName" minOccurs="0"/>
+                <element ref="OrgName" minOccurs="0"/>
+                <element ref="RelatedOrgName" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TravelArranger" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute name="DefaultInd">
+                <annotation>
+                    <documentation>Indicates that the receiving system should assume the default value if the user specifies no overriding
+                        value or action.
+                    </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="OfficeType" type="xsd:string">
+                <annotation>
+                    <documentation>Indicates main office, field office, or division of the organization.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="ExpireDate" type="xsd:string">
+                <annotation>
+                    <documentation>Date when membership in organization ends, in ISO 8601 format.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="Employer">
+        <annotation>
+            <documentation>Company or organization that employs the customer.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CompanyName" minOccurs="0"/>
+                <element ref="RelatedEmployer" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="EmployeeInfo" minOccurs="0"/>
+                <element ref="InternalRefNmbr" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TravelArranger" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="LoyaltyProgram" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute name="DefaultInd">
+                <annotation>
+                    <documentation>Indicates that the receiving system should assume the default value if the user specifies no overriding
+                        value or action.
+                    </documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="OfficeType" type="xsd:string">
+                <annotation>
+                    <documentation>Main office, field office, or division of the organization.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="ExpireDate" type="xsd:string">
+                <annotation>
+                    <documentation>Date when employment ends, in ISO 8601 format.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="TravelArranger">
+        <annotation>
+            <documentation>Companies or individuals responsible for making travel plans or transactions either for the customer or company.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CompanyName"/>
+            </sequence>
+            <attribute name="DefaultInd">
+                <annotation>
+                    <documentation>Indicates that the receiving system should assume the default value if the user specifies no overriding
+                        value or action.</documentation>
+                </annotation>
+                <simpleType>
+                    <restriction base="xsd:string">
+                        <enumeration value="Yes"/>
+                        <enumeration value="No"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="TravelArrangerType" type="xsd:string">
+                <annotation>
+                    <documentation>Type of service making travel plans or transactions (e.g., travel agency, etc.).</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="ContactRPH" type="xsd:string">
+                <annotation>
+                    <documentation>Identification of travel arranger contact person by reference number or index.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="TravelClub">
+        <annotation>
+            <documentation>Identifies a travel club that offers special privileges and related services.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="TravelClubName"/>
+                <element ref="ClubMemberName" minOccurs="0"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="ExpireDate" type="xsd:string">
+                <annotation>
+                    <documentation>Date club membership ends, in ISO 8601 format.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="Insurance">
+        <annotation>
+            <documentation>Travel insurance carried by the customer or company.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="InsuredName" minOccurs="0"/>
+                <element ref="InsuranceCompany" minOccurs="0"/>
+                <element ref="Underwriter" minOccurs="0"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+            <attribute name="InsuranceType" type="xsd:string">
+                <annotation>
+                    <documentation>Type of insurance policy carried by the individual or company.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="PolicyNumber" type="xsd:string" use="required">
+                <annotation>
+                    <documentation>Identifier assigned by insurance company to the insurance policy.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="EffectiveDate" type="xsd:string">
+                <annotation>
+                    <documentation>Date insurance coverage begins in ISO 8601 format.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="ExpireDate" type="xsd:string">
+                <annotation>
+                    <documentation>Date insurance coverage ends in ISO 8601 format.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="RPH" type="xsd:string">
+                <annotation>
+                    <documentation>Reference place holder or index number assigned to reference this insurance policy.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="OrgMemberName">
+        <annotation>
+            <documentation>Name of the member of the organization, as listed among the options of customer names.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="PersonName"/>
+            </sequence>
+            <attribute name="OrgMemberId" type="xsd:string">
+                <annotation>
+                    <documentation>Identifer assigned to the person or company member.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="OrgLevel" type="xsd:string">
+                <annotation>
+                    <documentation>Level in organization (e.g., seniority) that conveys privileges.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="OrgMemberTitle" type="xsd:string">
+                <annotation>
+                    <documentation>Rank in organization or title of member. May convey privileges (e.g., Chairman, President, etc.)</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="OrgName">
+        <annotation>
+            <documentation>Name of the organization.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CompanyName"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="RelatedOrgName" type="xsd:string">
+        <annotation>
+            <documentation>Identifies a subsidiary, or entity related to the organization.</documentation>
+        </annotation>
+    </element>
+    <element name="RelatedEmployer">
+        <annotation>
+            <documentation>Entity related to the employer company such as division or subsidiary.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CompanyName"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="EmployeeInfo">
+        <annotation>
+            <documentation>Employment identification for a contact person; using an employee Id number, title, level within the company,
+                and an indication of their status, i.e.: active, retired, on leave, or terminated from employment.  Additional information about an employee can be entered into the PCDATA of the element, including the name of the employee, if it differs from the person name identified as a customer or contact.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="EmployeeId" type="xsd:string">
+                        <annotation>
+                            <documentation>Identifier assigned to the employee.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="EmployeeLevel" type="xsd:string">
+                        <annotation>
+                            <documentation>Level in employer organization (e.g. seniority) that coveys privileges.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="EmployeeTitle" type="xsd:string">
+                        <annotation>
+                            <documentation>Title of employee in the employer company that conveys rank or privileges.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="EmployeeStatusType">
+                        <annotation>
+                            <documentation>Status of employment.</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="Active"/>
+                                <enumeration value="Retired"/>
+                                <enumeration value="Leave"/>
+                                <enumeration value="Terminated"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="InternalRefNmbr" type="xsd:string">
+        <annotation>
+            <documentation>Accounting code(s) assigned to travel for employer.</documentation>
+        </annotation>
+    </element>
+    <element name="TravelClubName">
+        <annotation>
+            <documentation>Name of the travel club.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CompanyName"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="ClubMemberName">
+        <annotation>
+            <documentation>Name of individual as registered with the travel club.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="PersonName" minOccurs="0"/>
+            </sequence>
+            <attribute name="ClubMemberId" type="xsd:string">
+                <annotation>
+                    <documentation>Identifier assigned to person registered with travel club.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="InsuredName">
+        <annotation>
+            <documentation>Name of the insured party as listed on the insurance policy.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="PersonName" minOccurs="0"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="InsuranceCompany" type="xsd:string">
+        <annotation>
+            <documentation>Identification of the insurance company providing coverage.</documentation>
+        </annotation>
+    </element>
+    <element name="Underwriter" type="xsd:string">
+        <annotation>
+            <documentation>Underwriting company providing coverage.</documentation>
+        </annotation>
+    </element>
+    <element name="Agreements">
+        <annotation>
+            <documentation>Section of a business profile that contains information about trading partner agreements.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="Certification" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="Alliance_Consortium" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="CommissionInfo" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="TPA_Extensions" minOccurs="0"/>
+            </sequence>
+            <attributeGroup ref="Privacy"/>
+        </complexType>
+    </element>
+    <element name="Certification">
+        <annotation>
+            <documentation>Information about certifications or accreditation held by the company.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attribute name="CertificationId" type="xsd:string">
+                        <annotation>
+                            <documentation>The Identification number assigned to a business entity by the certifying body. This number would presumably be the
+                                Id in the Unique Id. </documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="CertificationType">
+                        <annotation>
+                            <documentation>An indication of whether a certification is part of a consortium or alliance partnership.
+                                Valid values: (Single Vendor|Alliance).</documentation>
+                        </annotation>
+                        <simpleType>
+                            <restriction base="xsd:string">
+                                <enumeration value="SingleVndr"/>
+                                <enumeration value="Alliance"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="EffectiveDate" type="xsd:string">
+                        <annotation>
+                            <documentation>The date when certification originated.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="ExpireDate" type="xsd:string">
+                        <annotation>
+                            <documentation>The date when the certification or accreditation expires and is no longer valid.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="Alliance_Consortium">
+        <annotation>
+            <documentation>Provides information about alliance partnerships and consortiums of members grouped together to obtain trading partner
+                agreements for travel service and privileges.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="AllianceMember" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute name="AllianceId" type="xsd:string">
+                <annotation>
+                    <documentation>Identification of the alliance or partnership in which the business entity is a member.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="EffectiveDate" type="xsd:string">
+                <annotation>
+                    <documentation>The date when membership in an alliance or consortium begins.</documentation>
+                </annotation>
+            </attribute>
+            <attribute name="ExpireDate" type="xsd:string">
+                <annotation>
+                    <documentation>The date when membership in the alliance or consortium ends.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="AllianceMember">
+        <annotation>
+            <documentation>Identification of a company that participates in an alliance or consortium to which the primary
+                business entity identified in this profile belongs.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element ref="CompanyName"/>
+            </sequence>
+            <attribute name="MemberCode" type="xsd:string">
+                <annotation>
+                    <documentation>Identifies the alliance or consortium member by code.</documentation>
+                </annotation>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="CommissionInfo">
+        <annotation>
+            <documentation>Contains information about agreements for commission arrangements with the business entity.</documentation>
+        </annotation>
+        <complexType>
+            <simpleContent>
+                <extension base="xsd:string">
+                    <attributeGroup ref="Privacy"/>
+                    <attribute name="CommissionPlanCode" type="xsd:string">
+                        <annotation>
+                            <documentation>Identifies a commission plan agreement between trading partners by plan code.</documentation>
+                        </annotation>
+                    </attribute>
+                    <attribute name="CommissionRate" type="xsd:string">
+                        <annotation>
+                            <documentation>Identifies a rate for paying commissions; can be a decimal value based on percentage paid
+                                for the commission plan, or a flat rate.</documentation>
+                        </annotation>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="TPA_Extensions">
+        <annotation>
+            <documentation>Extensions allowed to OTA specification per bilateral agreement between trading partners.</documentation>
+        </annotation>
+        <complexType mixed="true">
+            <choice/>
+        </complexType>
+    </element>
+</schema>
