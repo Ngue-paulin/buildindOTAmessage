@@ -60,7 +60,7 @@ private final AvailMapper availMapper;
 
     }
 
-    @PostMapping(value = "/saveRate", produces = "application/xml")
+    @PostMapping(value = "/saveRate" , produces = "application/xml")
     public ResponseEntity<String> saveRate(@RequestBody OTA_HotelRateAmountNotifRQ ota_hotelRateAmountNotifRQ) throws JAXBException {
         OTAHotelRateAmountNotifRQ otaHotelRateAmountNotifRQ = availMapper.getRateValues(ota_hotelRateAmountNotifRQ);
 

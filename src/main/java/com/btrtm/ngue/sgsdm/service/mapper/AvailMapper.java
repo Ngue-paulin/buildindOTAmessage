@@ -105,7 +105,7 @@ public class AvailMapper {
                 // opera envoie les infos pour les chambres.
                 statusApplicationControl.setInvType(InvType.Type);
                 statusApplicationControl.setInvTypeCode(formatTypeCode(statusApplicationControl.getInvTypeCode()));
-                statusApplicationControl.setInvCode(formatTypeCode(statusApplicationControl.getInvTypeCode()));
+                statusApplicationControl.setInvCode(statusApplicationControl.getInvTypeCode());
                 /**
                  * @// TODO: 28/03/2023
                  * formage de rate plan code à faire
@@ -174,7 +174,7 @@ public class AvailMapper {
         return otaHotelRestrictionsNotifRS;
     }
 
-    public OTAHotelRateAmountNotifRQ getRateValues(OTA_HotelRateAmountNotifRQ ota_hotelRateAmountNotifRQ){
+    public OTAHotelRateAmountNotifRQ getRateValues(OTA_HotelRateAmountNotifRQ ota_hotelRateAmountNotifRQ) {
 
         OTAHotelRateAmountNotifRQ otaHotelRateAmountNotifRQ = new OTAHotelRateAmountNotifRQ();
         HotelRatePlan hotelRatePlan = ota_hotelRateAmountNotifRQ.getHotelRatePlans();
@@ -183,9 +183,9 @@ public class AvailMapper {
         otaHotelRateAmountNotifRQ.setPos(pos.setPOS(hotelRatePlan.getChannelCode(), hotelRatePlan.getUniqueId()));
 
 
-        if(hotelRatePlan != null){
+        if (hotelRatePlan != null) {
 
-            if(hotelRatePlan.getRatePlans() != null && ! hotelRatePlan.getRatePlans().isEmpty()){
+            if (hotelRatePlan.getRatePlans() != null && !hotelRatePlan.getRatePlans().isEmpty()) {
 
                 // adding RateAmountMessages
                 RateAmountMessagesDTO rateAmountMessagesDTO = new RateAmountMessagesDTO();
@@ -194,8 +194,6 @@ public class AvailMapper {
 
                 // adding List of RateAmountMessage
                 List<RateAmountMessageDTO> rateAmountMessageDTOS = new ArrayList<>();
-
-
 
 
                 hotelRatePlan.getRatePlans().stream().forEach(ratePlan -> {
@@ -209,7 +207,7 @@ public class AvailMapper {
 
 
                     RatesDTO ratesDTO = new RatesDTO();
-                    if(ratePlan.getRates() != null && ! ratePlan.getRates().isEmpty()){
+                    if (ratePlan.getRates() != null && !ratePlan.getRates().isEmpty()) {
                         RateObject rateObject = ratePlan.getRates().stream().findFirst().get();
 
                         statusApplicationControl.setMon(rateObject.isMon());
@@ -222,7 +220,7 @@ public class AvailMapper {
 
                         List<RateDTO> rateDTOS = new ArrayList<>();
 
-                        ratePlan.getRates().stream().forEach( rate -> {
+                        ratePlan.getRates().stream().forEach(rate -> {
 
                             RateDTO rateDTO = new RateDTO();
 
@@ -232,78 +230,84 @@ public class AvailMapper {
                             statusApplicationControl.setInvCode(formatTypeCode(rate.getInvTypeCode()));
                             statusApplicationControl.setInvTypeCode(formatTypeCode(rate.getInvTypeCode()));
 
-                            if(rate.getRatesAmounts() != null && ! rate.getRatesAmounts().isEmpty()){
+                            if (rate.getRatesAmounts() != null && !rate.getRatesAmounts().isEmpty()) {
                                 BaseByGuestAmtsDTO baseByGuestAmtsDTO = new BaseByGuestAmtsDTO();
                                 AdditionalGuestAmountsDTO additionalGuestAmountsDTO = new AdditionalGuestAmountsDTO();
                                 AdditionalChargesDTO additionalChargesDTO = new AdditionalChargesDTO();
                                 rate.getRatesAmounts().stream().forEach(rateAmount -> {
-                                    if(rateAmount.getBaseByGuestAmts() != null && ! rateAmount.getBaseByGuestAmts().isEmpty()){
+                                    if (rateAmount.getBaseByGuestAmts() != null && !rateAmount.getBaseByGuestAmts().isEmpty()) {
                                         List<BaseByGuestAmtDTO> baseByGuestAmtDTOS = new ArrayList<>();
-                                        rateAmount.getBaseByGuestAmts().stream().forEach(baseGamount-> {
+                                        rateAmount.getBaseByGuestAmts().stream().forEach(baseGamount -> {
                                             BaseByGuestAmtDTO baseByGuestAmtDTO = new BaseByGuestAmtDTO();
-                                            baseByGuestAmtDTO.setAmountAfterTax(Double.valueOf(baseGamount.getAmountAfterTax()));
-                                            baseByGuestAmtDTO.setAmountBeforeTax(Double.valueOf(baseGamount.getAmountBeforeTax()));
-                                            baseByGuestAmtDTO.setNumberOfGuests(Integer.parseInt(baseGamount.getNumberOfGuests()));
+                                            if(baseGamount.getAmountAfterTax() != null && ! baseGamount.getAmountAfterTax().isEmpty()) {
+                                                baseByGuestAmtDTO.setAmountAfterTax(Double.valueOf(baseGamount.getAmountAfterTax()));
+                                            }
+                                            if(baseGamount.getAmountBeforeTax() != null && ! baseGamount.getAmountBeforeTax().isEmpty()) {
+                                                baseByGuestAmtDTO.setAmountBeforeTax(Double.valueOf(baseGamount.getAmountBeforeTax()));
+                                            }
+                                            if(baseGamount.getNumberOfGuests() != null && ! baseGamount.getNumberOfGuests().isEmpty()) {
+                                                baseByGuestAmtDTO.setNumberOfGuests(Integer.parseInt(baseGamount.getNumberOfGuests()));
+                                            }
                                             baseByGuestAmtDTO.setAgeQualifyingCode(baseGamount.getAgeQualifyingCode());
                                             baseByGuestAmtDTOS.add(baseByGuestAmtDTO);
                                         });
                                         baseByGuestAmtsDTO.setBaseByGuestAmt(baseByGuestAmtDTOS);
+                                        rateDTO.setBaseByGuestAmts(baseByGuestAmtsDTO);
                                     }
 
-                                    if(rateAmount.getAdditionalGuestAmounts() != null && ! rateAmount.getAdditionalGuestAmounts().isEmpty()){
+                                    if (rateAmount.getAdditionalGuestAmounts() != null && !rateAmount.getAdditionalGuestAmounts().isEmpty()) {
                                         List<AdditionalGuestAmountDTO> additionalGuestAmountDTOS = new ArrayList<>();
-                                        rateAmount.getAdditionalGuestAmounts().stream().forEach(additionlGamount ->{
+                                        rateAmount.getAdditionalGuestAmounts().stream().forEach(additionlGamount -> {
                                             AdditionalGuestAmountDTO additionalGuestAmountDTO = new AdditionalGuestAmountDTO();
                                             additionalGuestAmountDTO.setAgeQualifyingCode(additionlGamount.getAgeQualifyingCode());
-                                            additionalGuestAmountDTO.setAmount(Double.valueOf(additionlGamount.getAmount()));
-                                            additionalGuestAmountDTO.setMaxAge(Integer.parseInt(additionlGamount.getMaxAge()));
+                                            if(additionlGamount.getAmount() != null && ! additionlGamount.getAmount().isEmpty()) {
+                                                additionalGuestAmountDTO.setAmount(Double.valueOf(additionlGamount.getAmount()));
+                                            }
+                                            if(additionlGamount.getMaxAge() != null && ! additionlGamount.getMaxAge().isEmpty()) {
+                                                additionalGuestAmountDTO.setMaxAge(Integer.parseInt(additionlGamount.getMaxAge()));
+                                            }
+                                            if(additionlGamount.getMinAge() != null && !additionlGamount.getMinAge().isEmpty())
                                             additionalGuestAmountDTO.setMinAge(Integer.parseInt(additionlGamount.getMinAge()));
 
                                             additionalGuestAmountDTOS.add(additionalGuestAmountDTO);
                                         });
                                         additionalGuestAmountsDTO.setAdditionalGuestAmount(additionalGuestAmountDTOS);
+                                        rateDTO.setAdditionalGuestAmounts(additionalGuestAmountsDTO);
                                     }
-
-                                    if(rateAmount.getAdditionalCharges() != null && ! rateAmount.getAdditionalCharges().isEmpty()){
+                                    if (rateAmount.getAdditionalCharges() != null && !rateAmount.getAdditionalCharges().isEmpty()) {
                                         List<AdditionalChargeDTO> additionalChargeDTOS = new ArrayList<>();
-                                    }
+                                        rateAmount.getAdditionalCharges().stream().forEach(addCarge -> {
+                                            AdditionalChargeDTO additionalChargeDTO = new AdditionalChargeDTO();
+                                            if(addCarge.getAmountAfterTax() != null && ! addCarge.getAmountAfterTax().isEmpty()) {
+                                                additionalChargeDTO.setAmountAfterTax(Double.valueOf(addCarge.getAmountAfterTax()));
+                                            }
+                                            if(addCarge.getAmountBeforeTax() != null && ! addCarge.getAmountBeforeTax().isEmpty()) {
+                                                additionalChargeDTO.setAmountBeforeTax(Double.valueOf(addCarge.getAmountBeforeTax()));
+                                            }
 
+                                            additionalChargeDTOS.add(additionalChargeDTO);
+                                        });
+                                        additionalChargesDTO.setAdditionalCharges(additionalChargeDTOS);
+                                        rateDTO.setAdditionalCharges(additionalChargesDTO);
+                                    }
                                 });
                             }
-                            rate.getRatesAmounts();
-
-
+                            rateDTOS.add(rateDTO);
                         });
 
                         ratesDTO.setRate(rateDTOS);
+                        rateAmountMessageDTO.setRates(ratesDTO);
                     }
                     statusApplicationControl.setInvType(InvType.Type);
-
                     rateAmountMessageDTO.setStatusApplicationControl(statusApplicationControl);
-
-
-
-
+                    rateAmountMessageDTOS.add(rateAmountMessageDTO);
 
                 });
-
-
-
-                List<RateDTO> rateDTOS = new ArrayList<>();
-
-
+                rateAmountMessagesDTO.setRateAmountMessage(rateAmountMessageDTOS);
+                otaHotelRateAmountNotifRQ.setRateAmountMessages(rateAmountMessagesDTO);
             }
 
-
-
-
-
-
         }
-
-
-
-
         return otaHotelRateAmountNotifRQ;
 
     }

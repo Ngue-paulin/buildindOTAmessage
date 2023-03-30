@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
-@XmlRootElement
+@XmlRootElement(name = "OTAHotelRateAmountNotifRQ")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OTAHotelRateAmountNotifRQ implements Serializable {
 
