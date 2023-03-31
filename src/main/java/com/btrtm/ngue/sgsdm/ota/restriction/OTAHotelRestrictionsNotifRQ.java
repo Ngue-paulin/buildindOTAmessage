@@ -11,13 +11,13 @@ import java.io.Serializable;
 public class OTAHotelRestrictionsNotifRQ implements Serializable {
 
     @XmlElement(name = "RuleMessages")
-    private RuleMessageDTO ruleMessage;
+    private RuleMessagesDTO ruleMessage;
 
-    public RuleMessageDTO getRuleMessage() {
+    public RuleMessagesDTO getRuleMessage() {
         return ruleMessage;
     }
 
-    public void setRuleMessage(RuleMessageDTO ruleMessage) {
+    public void setRuleMessage(RuleMessagesDTO ruleMessage) {
         this.ruleMessage = ruleMessage;
     }
 

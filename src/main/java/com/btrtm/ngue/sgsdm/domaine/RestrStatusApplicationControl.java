@@ -39,7 +39,7 @@ public class RestrStatusApplicationControl implements Serializable {
     @XmlAttribute(name = "InvType")
     @Enumerated(EnumType.STRING)
     private InvType invType;
-
+    @XmlAttribute(name = "InvBlockCode")
     private String invBlockCode;
 
     @XmlAttribute(name = "RatePlanCode")
@@ -178,4 +178,5 @@ public class RestrStatusApplicationControl implements Serializable {
     public void setRatePlanCategory(String ratePlanCategory) {
         this.ratePlanCategory = ratePlanCategory;
     }
+
 }

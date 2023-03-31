@@ -9,10 +9,7 @@ import com.btrtm.ngue.sgsdm.domaine.rate.RateObject;
 import com.btrtm.ngue.sgsdm.domaine.restriction.HotelRestriction;
 import com.btrtm.ngue.sgsdm.domaine.restriction.OTA_HotelRestrictionsNotifRQ;
 import com.btrtm.ngue.sgsdm.enumaration.InvType;
-import com.btrtm.ngue.sgsdm.ota.CompanyName;
 import com.btrtm.ngue.sgsdm.ota.POS;
-import com.btrtm.ngue.sgsdm.ota.RequestorID;
-import com.btrtm.ngue.sgsdm.ota.Source;
 import com.btrtm.ngue.sgsdm.ota.avail.*;
 import com.btrtm.ngue.sgsdm.ota.rate.*;
 import com.btrtm.ngue.sgsdm.ota.restriction.*;
@@ -22,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AvailMapper {
@@ -78,34 +74,46 @@ public class AvailMapper {
         return otaHotelInvCountNotifRQ;
     }
 
-    public OTAHotelRestrictionsNotifRQ getRestValues(OTA_HotelRestrictionsNotifRQ otaHotelRestrictionsNotifRQ){
+    public OTAHotelRestrictionsNotifRQ getRestrictionValues(OTA_HotelRestrictionsNotifRQ otaHotelRestrictionsNotifRQ){
 
         OTAHotelRestrictionsNotifRQ otaHotelRestrictionsNotifRS = new OTAHotelRestrictionsNotifRQ();
         HotelRestriction hotelRestriction = otaHotelRestrictionsNotifRQ.getHotelRestrictions();
 
-        RuleMessageDTO ruleMessageDTO = new RuleMessageDTO();
+        RuleMessagesDTO ruleMessageDTO = new RuleMessagesDTO();
 
         // infos CRS et infos Hotels
         ruleMessageDTO.setChainCode(hotelRestriction.getChainCode());
         ruleMessageDTO.setHotelCode(hotelRestriction.getHotelCode());
 
-        List<BookingRule> bookingRules = new ArrayList<>();
-        BookingRuleDTO bookingRuleDTO = new BookingRuleDTO();
+        List<BookingRuleDTO> bookingRules = new ArrayList<>();
+        BookingRulesDTO bookingRulesDTO = new BookingRulesDTO();
 
 
         // Infos de restriction
-        List<RuleMessage> ruleMessages = new ArrayList<>();
+        List<RuleMessageDTO> ruleMessages = new ArrayList<>();
         hotelRestriction.getAvailStatusMessages().stream().forEach(resStMes ->{
-            RuleMessage ruleMessage = new RuleMessage();
+            RuleMessageDTO ruleMessage = new RuleMessageDTO();
 
             // ajouter StatusApplicationControl
             RestrStatusApplicationControl statusApplicationControl = new RestrStatusApplicationControl();
+            DOW_RestrictionsDTO dowRestrictions = new DOW_RestrictionsDTO();
+            ArrivalDaysOfWeekDTO arrivalDaysOfWeek = new ArrivalDaysOfWeekDTO();
             if(resStMes.getStatusApplicationControl() != null && ! resStMes.getStatusApplicationControl().getInvTypeCode().isEmpty()){
                 statusApplicationControl = resStMes.getStatusApplicationControl();
                 // opera envoie les infos pour les chambres.
                 statusApplicationControl.setInvType(InvType.Type);
                 statusApplicationControl.setInvTypeCode(formatTypeCode(statusApplicationControl.getInvTypeCode()));
                 statusApplicationControl.setInvCode(statusApplicationControl.getInvTypeCode());
+
+                arrivalDaysOfWeek.setMon(statusApplicationControl.isMon());
+                arrivalDaysOfWeek.setTue(statusApplicationControl.isTue());
+                arrivalDaysOfWeek.setWeds(statusApplicationControl.isWeds());
+                arrivalDaysOfWeek.setThur(statusApplicationControl.isThur());
+                arrivalDaysOfWeek.setFri(statusApplicationControl.isFri());
+                arrivalDaysOfWeek.setSat(statusApplicationControl.isSat());
+                arrivalDaysOfWeek.setSun(statusApplicationControl.isSun());
+
+                dowRestrictions.setArrivalDaysOfWeek(arrivalDaysOfWeek);
                 /**
                  * @// TODO: 28/03/2023
                  * formage de rate plan code à faire
@@ -117,7 +125,9 @@ public class AvailMapper {
             // Ajouter RestrictionStatus
 
             RestrictionStatusDTO restrictionStatusDTO = new RestrictionStatusDTO();
-            BookingRule bookingRule = new BookingRule();
+            BookingRuleDTO bookingRule = new BookingRuleDTO();
+
+            bookingRule.setDowRestrictions(dowRestrictions);
 
             /**
              * todo
@@ -162,8 +172,8 @@ public class AvailMapper {
 
 
             bookingRules.add(bookingRule);
-            bookingRuleDTO.setBookingRules(bookingRules);
-            ruleMessage.setBookingRules(bookingRuleDTO);
+            bookingRulesDTO.setBookingRules(bookingRules);
+            ruleMessage.setBookingRules(bookingRulesDTO);
             ruleMessageDTO.getRuleMessages().add(ruleMessage);
 
         });
@@ -201,6 +211,8 @@ public class AvailMapper {
                     RestrStatusApplicationControl statusApplicationControl = new RestrStatusApplicationControl();
                     statusApplicationControl.setRatePlanCode(ratePlan.getRatePlanCode());
                     statusApplicationControl.setRatePlanCategory(ratePlan.getRateCategory());
+                    statusApplicationControl.setStart(ratePlan.getStartSellDate());
+                    statusApplicationControl.setEnd(ratePlan.getEndSellDate());
 
                     //todo
                     statusApplicationControl.setRatePlanID("--------------");
@@ -210,14 +222,14 @@ public class AvailMapper {
                     if (ratePlan.getRates() != null && !ratePlan.getRates().isEmpty()) {
                         RateObject rateObject = ratePlan.getRates().stream().findFirst().get();
 
-                        statusApplicationControl.setMon(rateObject.isMon());
+                        /*statusApplicationControl.setMon(rateObject.isMon());
                         statusApplicationControl.setTue(rateObject.isTue());
                         statusApplicationControl.setWeds(rateObject.isWeds());
                         statusApplicationControl.setThur(rateObject.isThur());
                         statusApplicationControl.setFri(rateObject.isFri());
                         statusApplicationControl.setSat(rateObject.isSat());
                         statusApplicationControl.setSun(rateObject.isSun());
-
+*/
                         List<RateDTO> rateDTOS = new ArrayList<>();
 
                         ratePlan.getRates().stream().forEach(rate -> {
@@ -226,6 +238,13 @@ public class AvailMapper {
 
                             rateDTO.setEnd(rate.getEnd());
                             rateDTO.setStart(rate.getStart());
+                            rateDTO.setMon(rate.isMon() ? 1 : 0);
+                            rateDTO.setTue(rate.isTue() ? 1 :0);
+                            rateDTO.setWeds(rate.isWeds() ? 1 : 0);
+                            rateDTO.setThur(rate.isThur() ? 1 : 0);
+                            rateDTO.setFri(rate.isFri() ? 1 : 0);
+                            rateDTO.setSat(rate.isSat() ? 1 : 0);
+                            rateDTO.setSun(rate.isSun() ? 1 : 0);
 
                             statusApplicationControl.setInvCode(formatTypeCode(rate.getInvTypeCode()));
                             statusApplicationControl.setInvTypeCode(formatTypeCode(rate.getInvTypeCode()));
@@ -260,6 +279,7 @@ public class AvailMapper {
                                         rateAmount.getAdditionalGuestAmounts().stream().forEach(additionlGamount -> {
                                             AdditionalGuestAmountDTO additionalGuestAmountDTO = new AdditionalGuestAmountDTO();
                                             additionalGuestAmountDTO.setAgeQualifyingCode(additionlGamount.getAgeQualifyingCode());
+                                            additionalGuestAmountDTO.setCurrencyCode(ratePlan.getCurrencyCode());
                                             if(additionlGamount.getAmount() != null && ! additionlGamount.getAmount().isEmpty()) {
                                                 additionalGuestAmountDTO.setAmount(Double.valueOf(additionlGamount.getAmount()));
                                             }

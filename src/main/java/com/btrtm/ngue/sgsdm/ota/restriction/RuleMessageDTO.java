@@ -1,42 +1,36 @@
 package com.btrtm.ngue.sgsdm.ota.restriction;
 
-import javax.xml.bind.annotation.*;
+import com.btrtm.ngue.sgsdm.domaine.RestrStatusApplicationControl;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 
-@XmlRootElement(name = "RuleMessages")
+@XmlRootElement(name = "RuleMessage")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RuleMessageDTO implements Serializable {
-    @XmlAttribute(name = "HotelCode")
-    private int hotelCode;
-    @XmlAttribute(name = "ChainCode")
-    private int chainCode;
-    @XmlElement(name = "RuleMessage" )
-    private List<RuleMessage> ruleMessages = new ArrayList<>();
 
-    public int getHotelCode() {
-        return hotelCode;
+    @XmlElement(name = "StatusApplicationControl")
+    private RestrStatusApplicationControl statusApplicationControl;
+    @XmlElement(name = "BookingRules")
+    private BookingRulesDTO bookingRules ;
+
+    public RestrStatusApplicationControl getStatusApplicationControl() {
+        return statusApplicationControl;
     }
 
-    public void setHotelCode(int hotelCode) {
-        this.hotelCode = hotelCode;
+    public void setStatusApplicationControl(RestrStatusApplicationControl statusApplicationControl) {
+        this.statusApplicationControl = statusApplicationControl;
     }
 
-    public int getChainCode() {
-        return chainCode;
+    public BookingRulesDTO getBookingRules() {
+        return bookingRules;
     }
 
-    public void setChainCode(int chainCode) {
-        this.chainCode = chainCode;
-    }
-
-    public List<RuleMessage> getRuleMessages() {
-        return ruleMessages;
-    }
-
-    public void setRuleMessages(List<RuleMessage> ruleMessages) {
-        this.ruleMessages = ruleMessages;
+    public void setBookingRules(BookingRulesDTO bookingRules) {
+        this.bookingRules = bookingRules;
     }
 }

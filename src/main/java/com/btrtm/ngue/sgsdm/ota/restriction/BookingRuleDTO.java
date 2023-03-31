@@ -2,23 +2,84 @@ package com.btrtm.ngue.sgsdm.ota.restriction;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 
-@XmlRootElement(name = "BookingRules")
+@XmlRootElement(name = "BookingRuledddd")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BookingRuleDTO implements Serializable {
+    @XmlAttribute(name = "MinTotalOccupancy")
+    private int minTotalOccupancy;
 
-    @XmlElement(name = "BookingRule")
-    private List<BookingRule> bookingRules = new ArrayList<>();
+    @XmlAttribute(name = "MaxTotalOccupancy")
+    private int maxTotalOccupancy;
 
-    public List<BookingRule> getBookingRules() {
-        return bookingRules;
+    @XmlElement(name = "RequiredPaymts")
+    private RequiredPaymtDTO requiredPaymts;
+
+    @XmlElement(name = "Description")
+    private DescriptionDTO description;
+
+    @XmlElement(name = "LengthsOfStay")
+    private LengthsOfStayDTO lengthsOfStay;
+
+    @XmlElement(name = "RestrictionStatus")
+    private RestrictionStatusDTO restrictionStatus;
+    @XmlElement(name = "DOW_Restrictions")
+    private DOW_RestrictionsDTO dowRestrictions ;
+
+    public LengthsOfStayDTO getLengthsOfStay() {
+        return lengthsOfStay;
     }
 
-    public void setBookingRules(List<BookingRule> bookingRules) {
-        this.bookingRules = bookingRules;
+    public void setLengthsOfStay(LengthsOfStayDTO lengthsOfStay) {
+        this.lengthsOfStay = lengthsOfStay;
     }
 
+    public int getMinTotalOccupancy() {
+        return minTotalOccupancy;
+    }
+
+    public void setMinTotalOccupancy(int minTotalOccupancy) {
+        this.minTotalOccupancy = minTotalOccupancy;
+    }
+
+    public int getMaxTotalOccupancy() {
+        return maxTotalOccupancy;
+    }
+
+    public void setMaxTotalOccupancy(int maxTotalOccupancy) {
+        this.maxTotalOccupancy = maxTotalOccupancy;
+    }
+
+    public RequiredPaymtDTO getRequiredPaymts() {
+        return requiredPaymts;
+    }
+
+    public void setRequiredPaymts(RequiredPaymtDTO requiredPaymts) {
+        this.requiredPaymts = requiredPaymts;
+    }
+
+    public DescriptionDTO getDescription() {
+        return description;
+    }
+
+    public void setDescription(DescriptionDTO description) {
+        this.description = description;
+    }
+
+    public RestrictionStatusDTO getRestrictionStatus() {
+        return restrictionStatus;
+    }
+
+    public void setRestrictionStatus(RestrictionStatusDTO restrictionStatus) {
+        this.restrictionStatus = restrictionStatus;
+    }
+
+    public DOW_RestrictionsDTO getDowRestrictions() {
+        return dowRestrictions;
+    }
+
+    public void setDowRestrictions(DOW_RestrictionsDTO dowRestrictions) {
+        this.dowRestrictions = dowRestrictions;
+    }
 }

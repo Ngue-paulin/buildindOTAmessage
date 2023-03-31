@@ -18,6 +18,8 @@ public class AdditionalGuestAmountDTO implements Serializable {
     private int minAge ;
     @XmlAttribute(name = "MaxAge")
     private  int maxAge ;
+    @XmlAttribute(name = "CurrencyCode")
+    private String currencyCode ;
 
     public String getAgeQualifyingCode() {
         return ageQualifyingCode;
@@ -49,5 +51,13 @@ public class AdditionalGuestAmountDTO implements Serializable {
 
     public void setMaxAge(int maxAge) {
         this.maxAge = maxAge;
+    }
+
+    public String getCurrencyCode() {
+        return currencyCode;
+    }
+
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 }

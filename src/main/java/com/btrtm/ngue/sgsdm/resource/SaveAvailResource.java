@@ -52,7 +52,7 @@ private final AvailMapper availMapper;
     @PostMapping(value = "/saveRestriction" , produces = "application/xml")
     public ResponseEntity<String> saveRestrictions(@RequestBody OTA_HotelRestrictionsNotifRQ otaHotelRestrictionsNotifRQ) throws JAXBException {
 
-        OTAHotelRestrictionsNotifRQ otaHotelRestrictionsNotifRS = availMapper.getRestValues(otaHotelRestrictionsNotifRQ);
+        OTAHotelRestrictionsNotifRQ otaHotelRestrictionsNotifRS = availMapper.getRestrictionValues(otaHotelRestrictionsNotifRQ);
 
         String result = transformToXml.getXml(OTAHotelRestrictionsNotifRQ.class,otaHotelRestrictionsNotifRS);
 

@@ -1,15 +1,23 @@
-package com.btrtm.ngue.sgsdm.ota.rate;
+package com.btrtm.ngue.sgsdm.domaine;
 
-import javax.xml.bind.annotation.*;
+import com.btrtm.ngue.sgsdm.enumaration.InvType;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
-@XmlRootElement
+@XmlRootElement(name = "StatusApplicationControl")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RateDTO implements Serializable {
+public class RestrStatusApplicationControlDTO implements Serializable {
+
     @XmlAttribute(name = "Start")
     private String start;
     @XmlAttribute(name = "End")
-    private String end ;
+    private String end;
     @XmlAttribute(name = "Mon")
     private  int mon;
     @XmlAttribute(name = "Tue")
@@ -24,36 +32,15 @@ public class RateDTO implements Serializable {
     private  int sat;
     @XmlAttribute(name = "Sun")
     private  int sun;
-    @XmlElement(name = "BaseByGuestAmts")
-    private BaseByGuestAmtsDTO baseByGuestAmts;
-    @XmlElement(name = "AdditionalGuestAmounts")
-    private AdditionalGuestAmountsDTO additionalGuestAmounts;
-    @XmlElement(name = "AdditionalCharges")
-    private AdditionalChargesDTO additionalCharges;
-
-    public BaseByGuestAmtsDTO getBaseByGuestAmts() {
-        return baseByGuestAmts;
-    }
-
-    public void setBaseByGuestAmts(BaseByGuestAmtsDTO baseByGuestAmts) {
-        this.baseByGuestAmts = baseByGuestAmts;
-    }
-
-    public AdditionalGuestAmountsDTO getAdditionalGuestAmounts() {
-        return additionalGuestAmounts;
-    }
-
-    public void setAdditionalGuestAmounts(AdditionalGuestAmountsDTO additionalGuestAmounts) {
-        this.additionalGuestAmounts = additionalGuestAmounts;
-    }
-
-    public AdditionalChargesDTO getAdditionalCharges() {
-        return additionalCharges;
-    }
-
-    public void setAdditionalCharges(AdditionalChargesDTO additionalCharges) {
-        this.additionalCharges = additionalCharges;
-    }
+    @XmlAttribute(name = "InvTypeCode")
+    private String invTypeCode;
+    @XmlAttribute(name = "InvCode")
+    private String invCode;
+    @XmlAttribute(name = "InvType")
+    @Enumerated(EnumType.STRING)
+    private InvType invType;
+    @XmlAttribute(name = "InvBlockCode")
+    private String invBlockCode;
 
     public String getStart() {
         return start;
@@ -125,6 +112,38 @@ public class RateDTO implements Serializable {
 
     public void setSun(int sun) {
         this.sun = sun;
+    }
+
+    public String getInvTypeCode() {
+        return invTypeCode;
+    }
+
+    public void setInvTypeCode(String invTypeCode) {
+        this.invTypeCode = invTypeCode;
+    }
+
+    public String getInvCode() {
+        return invCode;
+    }
+
+    public void setInvCode(String invCode) {
+        this.invCode = invCode;
+    }
+
+    public InvType getInvType() {
+        return invType;
+    }
+
+    public void setInvType(InvType invType) {
+        this.invType = invType;
+    }
+
+    public String getInvBlockCode() {
+        return invBlockCode;
+    }
+
+    public void setInvBlockCode(String invBlockCode) {
+        this.invBlockCode = invBlockCode;
     }
 
 }
