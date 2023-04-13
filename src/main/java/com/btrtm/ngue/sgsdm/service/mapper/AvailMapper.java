@@ -9,6 +9,7 @@ import com.btrtm.ngue.sgsdm.domaine.rate.RateObject;
 import com.btrtm.ngue.sgsdm.domaine.restriction.HotelRestriction;
 import com.btrtm.ngue.sgsdm.domaine.restriction.OTA_HotelRestrictionsNotifRQ;
 import com.btrtm.ngue.sgsdm.enumaration.InvType;
+import com.btrtm.ngue.sgsdm.ota.Constants;
 import com.btrtm.ngue.sgsdm.ota.POS;
 import com.btrtm.ngue.sgsdm.ota.avail.*;
 import com.btrtm.ngue.sgsdm.ota.rate.*;
@@ -74,11 +75,21 @@ public class AvailMapper {
         return otaHotelInvCountNotifRQ;
     }
 
-    public OTAHotelRestrictionsNotifRQ getRestrictionValues(OTA_HotelRestrictionsNotifRQ otaHotelRestrictionsNotifRQ){
+    public OTAHotelRestrictionsNotifRQ getRestrictionValues(OTA_HotelRestrictionsNotifRQ ota_hotelRestrictionsNotifRQ){
 
-        OTAHotelRestrictionsNotifRQ otaHotelRestrictionsNotifRS = new OTAHotelRestrictionsNotifRQ();
-        HotelRestriction hotelRestriction = otaHotelRestrictionsNotifRQ.getHotelRestrictions();
+        OTAHotelRestrictionsNotifRQ otaHotelRestrictionsNotifRQ = new OTAHotelRestrictionsNotifRQ();
+        otaHotelRestrictionsNotifRQ.setAltLangID(Constants.ALT_LANG_ID);
+        otaHotelRestrictionsNotifRQ.setPrimaryLangID(Constants.PRIMARY_LANG_ID);
+        otaHotelRestrictionsNotifRQ.setTarget(Constants.TARGET_1);
+        otaHotelRestrictionsNotifRQ.setTransactionStatusCode(Constants.TRANSACTION_STATUS_CODE_START);
+        otaHotelRestrictionsNotifRQ.setRetransmissionIndicator(true);
+        otaHotelRestrictionsNotifRQ.setVersion(Constants.VERSION_2008);
+        otaHotelRestrictionsNotifRQ.setSequenceNmbr("888888");
+        otaHotelRestrictionsNotifRQ.setTransactionIdentifier(Constants.TRANSACTION_IDENTIFIER);
 
+        HotelRestriction hotelRestriction = ota_hotelRestrictionsNotifRQ.getHotelRestrictions();
+
+        otaHotelRestrictionsNotifRQ.setTimeStamp(hotelRestriction.getTimeStamp());
         RuleMessagesDTO ruleMessageDTO = new RuleMessagesDTO();
 
         // infos CRS et infos Hotels
@@ -179,9 +190,9 @@ public class AvailMapper {
         });
 
 
-        otaHotelRestrictionsNotifRS.setRuleMessage(ruleMessageDTO);
+        otaHotelRestrictionsNotifRQ.setRuleMessage(ruleMessageDTO);
 
-        return otaHotelRestrictionsNotifRS;
+        return otaHotelRestrictionsNotifRQ;
     }
 
     public OTAHotelRateAmountNotifRQ getRateValues(OTA_HotelRateAmountNotifRQ ota_hotelRateAmountNotifRQ) {
@@ -228,7 +239,7 @@ public class AvailMapper {
                         statusApplicationControl.setThur(rateObject.isThur());
                         statusApplicationControl.setFri(rateObject.isFri());
                         statusApplicationControl.setSat(rateObject.isSat());
-                        statusApplicationControl.setSun(rateObject.isSun());
+                        statusApplicationControl.setSun(rateOb  ject.isSun());
 */
                         List<RateDTO> rateDTOS = new ArrayList<>();
 
